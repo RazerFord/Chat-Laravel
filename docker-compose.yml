@@ -1,0 +1,73 @@
+version: '3.8'
+x-backend: &backend
+  build: .
+  ports:
+    - "8080:80"
+  volumes:
+    - ./:/app
+  restart: unless-stopped
+  depends_on:
+    - postgres
+  environment:
+    APP_NAME: 'Chat'
+    APP_DEBUG: 'true'
+    APP_KEY: 'base64:d1k91AgNcf1g7t/SVxBwE3u4NFK/I3vMH8Gyzl2Rvrs='
+    DB_CONNECTION: pgsql
+    DB_HOST: postgres
+    DB_PORT: 5432
+    DB_DATABASE: app
+    DB_USERNAME: postgres
+    DB_PASSWORD: password
+    WAIT_HOSTS: postgres:5432
+
+services:
+  backend:
+    <<: *backend
+
+  postgres:
+    image: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: app
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_LISTEN_PORT: "5432"
+    ports:
+      - "5050:5432"
+    restart: unless-stopped
+    depends_on:
+      - postgres
+
+  composer:
+    image: composer:2.1.12
+    working_dir: /composer
+    volumes:
+      - "./:/composer"
+    command: composer install --ignore-platform-reqs
+
+  centrifugo:
+    image: centrifugo/centrifugo:v4.0
+    restart: always
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+    ports:
+    - "3001:8000"
+    environment:
+      CENTRIFUGO_TOKEN_HMAC_SECRET_KEY: secret
+      CENTRIFUGO_ADMIN: 1
+      CENTRIFUGO_ADMIN_PASSWORD: password
+      CENTRIFUGO_API_KEY: api_key
+      CENTRIFUGO_ADMIN_SECRET: secret
+      CENTRIFUGO_HISTORY_SIZE: 10
+      CENTRIFUGO_HISTORY_TTL: 300s
+      CENTRIFUGO_ALLOWED_ORIGINS: '*'
