@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthControllers\AuthController;
-use App\Http\Controllers\ChatControllers\ChatController;
+use App\Http\Controllers\MessageControllers\MessageController;
 use App\Models\Chat;
 
 /*
@@ -26,8 +26,8 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 Route::middleware('auth:web')->group(function () {
-    Route::controller(ChatController::class)->group(function () {
-        Route::get('chat', 'index')->name('chat.index');
+    Route::controller(MessageController::class)->group(function () {
+        Route::get('message', 'index')->name('message.index');
     });
 
     Route::controller(AuthController::class)->group(function () {

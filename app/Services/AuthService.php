@@ -33,7 +33,7 @@ class AuthService implements ServiceInterface
 
         // $token = $user->createToken(config('app.name'))->plainTextToken;
 
-        return redirect(route('chat.index'));
+        return redirect(route('message.index'));
     }
 
     /**
