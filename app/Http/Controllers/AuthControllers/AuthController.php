@@ -7,6 +7,8 @@ use App\Http\Requests\Auth\LoginFormRequest;
 use App\Models\User;
 use App\Responses\SuccessResponse;
 use App\Services\AuthService;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,6 +24,16 @@ class AuthController extends BaseController
     public function __construct(AuthService $service)
     {
         $this->service = $service;
+    }
+
+    /**
+     * Return form of authorization.
+     * 
+     * @retutn view
+     */
+    public function index(): View|Factory
+    {
+        return view('auth');
     }
 
     /**
