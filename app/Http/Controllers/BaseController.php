@@ -15,7 +15,7 @@ class BaseController extends Controller
     /**
      * Class of service.
      * 
-     * @var ServiceInterface $service Class of service
+     * @var mixed $service Class of service
      */
     protected $service;
 }

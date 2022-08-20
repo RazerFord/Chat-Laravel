@@ -6,13 +6,24 @@ use App\Http\Controllers\BaseController;
 use App\Http\Requests\Auth\LoginFormRequest;
 use App\Models\User;
 use App\Responses\SuccessResponse;
+use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends BaseController
 {
+    /**
+     * Initialize class of service.
+     * 
+     * @param AuthService
+     * @return void
+     */
+    public function __construct(AuthService $service)
+    {
+        $this->service = $service;
+    }
+
     /**
      * Login user.
      * 
@@ -21,17 +32,7 @@ class AuthController extends BaseController
      */
     public function login(LoginFormRequest $request): JsonResponse
     {
-        $data = $request->validated();
-
-        if (!Auth::attempt($data)) {
-            return SuccessResponse::response(Response::$statusTexts[Response::HTTP_UNAUTHORIZED], null, Response::HTTP_UNAUTHORIZED);
-        }
-
-        $user = $request->user();
-
-        $token = $user->createToken(config('app.name'))->plainTextToken;
-
-        return SuccessResponse::response(Response::$statusTexts[Response::HTTP_OK], ['token' => $token], Response::HTTP_OK);
+        return $this->service->login($request);
     }
 
     /**
