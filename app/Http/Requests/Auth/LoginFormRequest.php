@@ -5,6 +5,7 @@ namespace App\Http\Requests\Auth;
 use App\Exceptions\ValidationException;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Symfony\Component\HttpFoundation\Response;
 
 class LoginFormRequest extends FormRequest
 {
@@ -41,6 +42,9 @@ class LoginFormRequest extends FormRequest
      */
     protected function failedValidation(Validator $validator)
     {
-        throw new ValidationException('ddd', $validator->errors()->messages());
+        throw new ValidationException(
+            Response::$statusTexts[Response::HTTP_UNPROCESSABLE_ENTITY],
+            $validator->errors()->messages()
+        );
     }
 }

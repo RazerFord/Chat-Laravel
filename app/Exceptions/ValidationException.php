@@ -4,6 +4,8 @@ namespace App\Exceptions;
 
 use App\Responses\ErrorResponse;
 use Exception;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class ValidationException extends Exception
@@ -13,8 +15,12 @@ class ValidationException extends Exception
      */
     protected $errors;
 
-    public function __construct(string $message, array|null $errors = null, int $code = 422, Throwable|null $previous = null)
-    {
+    public function __construct(
+        string $message,
+        array|null $errors = null,
+        int $code = JsonResponse::HTTP_UNPROCESSABLE_ENTITY,
+        Throwable|null $previous = null
+    ) {
         $this->errors = $errors;
 
         parent::__construct($message, $code, $previous);
@@ -25,7 +31,7 @@ class ValidationException extends Exception
      * 
      * @return JsonResponse
      */
-    public function render()
+    public function render(): JsonResponse
     {
         return ErrorResponse::response($this->message, $this->errors, $this->code);
     }
