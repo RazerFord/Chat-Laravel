@@ -23,10 +23,10 @@ class AuthService implements ServiceInterface
             ]);
         }
 
-        $user = $request->user();
+        // $user = $request->user();
 
-        $token = $user->createToken(config('app.name'))->plainTextToken;
+        // $token = $user->createToken(config('app.name'))->plainTextToken;
 
-        return redirect()->back();
+        return redirect(route('chat.index'));
     }
 }

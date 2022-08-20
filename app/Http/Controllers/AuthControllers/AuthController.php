@@ -13,6 +13,7 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends BaseController
@@ -33,8 +34,12 @@ class AuthController extends BaseController
      * 
      * @retutn view
      */
-    public function index(): View|Factory
+    public function index(): View|Factory|Redirector|RedirectResponse
     {
+        if (Auth::check()) {
+            return redirect(route('chat.index'));
+        }
+
         return view('auth');
     }
 

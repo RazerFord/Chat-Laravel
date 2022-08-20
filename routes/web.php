@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthControllers\AuthController;
+use App\Http\Controllers\ChatControllers\ChatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,4 +22,10 @@ Route::get('/', function () {
 Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login')->name('login.post');
     Route::get('login', 'index')->name('login.index');
+});
+
+Route::middleware('auth:web')->group(function () {
+    Route::controller(ChatController::class)->group(function () {
+        Route::get('chat', 'index')->name('chat.index');
+    });
 });
