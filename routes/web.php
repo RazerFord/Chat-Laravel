@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthControllers\AuthController;
 use App\Http\Controllers\ChatControllers\ChatController;
+use App\Models\Chat;
 
 /*
 |--------------------------------------------------------------------------
