@@ -72,11 +72,10 @@ class AuthController extends BaseController
     /**
      * Logout.
      * 
-     * @return JsonResponse
+     * @return View|Factory|Redirector|RedirectResponse
      */
-    public function logout(Request $request): JsonResponse
+    public function logout(Request $request): View|Factory|Redirector|RedirectResponse
     {
-        $request->user()->currentAccessToken()->delete();
-        return SuccessResponse::response(Response::$statusTexts[Response::HTTP_OK], null, Response::HTTP_OK);
+        return $this->service->logout($request);
     }
 }

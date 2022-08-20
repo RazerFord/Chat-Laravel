@@ -28,4 +28,8 @@ Route::middleware('auth:web')->group(function () {
     Route::controller(ChatController::class)->group(function () {
         Route::get('chat', 'index')->name('chat.index');
     });
+
+    Route::controller(AuthController::class)->group(function () {
+        Route::get('logout', 'logout')->name('logout');
+    });
 });
