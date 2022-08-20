@@ -9,6 +9,8 @@ use App\Responses\SuccessResponse;
 use App\Services\AuthService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Routing\Redirector;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,9 +42,9 @@ class AuthController extends BaseController
      * Login user.
      * 
      * @param LoginFormRequest $request
-     * @return JsonResponse
+     * @return View|Factory|Redirector|RedirectResponse
      */
-    public function login(LoginFormRequest $request): JsonResponse
+    public function login(LoginFormRequest $request): View|Factory|Redirector|RedirectResponse
     {
         return $this->service->login($request);
     }

@@ -14,7 +14,7 @@ use App\Http\Controllers\AuthControllers\AuthController;
 |
 */
 
-Route::post('/', function () {
+Route::get('/', function () {
     return view('welcome');
 });
 

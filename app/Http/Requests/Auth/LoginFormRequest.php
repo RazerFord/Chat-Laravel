@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\Auth;
 
-use App\Exceptions\ValidationException;
-use Illuminate\Contracts\Validation\Validator;
+// use App\Exceptions\ValidationException;
+// use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Symfony\Component\HttpFoundation\Response;
+// use Symfony\Component\HttpFoundation\Response;
 
 class LoginFormRequest extends FormRequest
 {
@@ -32,19 +32,19 @@ class LoginFormRequest extends FormRequest
         ];
     }
 
-    /**
-     * Handle a failed validation attempt.
-     *
-     * @param  Validator $validator
-     * @return void
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    protected function failedValidation(Validator $validator)
-    {
-        throw new ValidationException(
-            Response::$statusTexts[Response::HTTP_UNPROCESSABLE_ENTITY],
-            $validator->errors()->messages()
-        );
-    }
+    // /**
+    //  * Handle a failed validation attempt.
+    //  *
+    //  * @param  Validator $validator
+    //  * @return void
+    //  *
+    //  * @throws \Illuminate\Validation\ValidationException
+    //  */
+    // protected function failedValidation(Validator $validator)
+    // {
+    //     throw new ValidationException(
+    //         Response::$statusTexts[Response::HTTP_UNPROCESSABLE_ENTITY],
+    //         $validator->errors()->messages()
+    //     );
+    // }
 }

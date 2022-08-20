@@ -5,24 +5,28 @@ namespace App\Services;
 use App\Http\Requests\Auth\LoginFormRequest;
 use App\Responses\SuccessResponse;
 use App\Services\Interfaces\ServiceInterface;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Routing\Redirector;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
 class AuthService implements ServiceInterface
 {
-    public function login(LoginFormRequest $request): JsonResponse
+    public function login(LoginFormRequest $request): View|Factory|Redirector|RedirectResponse
     {
         $data = $request->validated();
 
         if (!Auth::attempt($data)) {
-            return SuccessResponse::response(Response::$statusTexts[Response::HTTP_UNAUTHORIZED], null, Response::HTTP_UNAUTHORIZED);
+            return redirect()->back()->withInput($request->only('email'))->withErrors([
+                'approve' => 'Wrong password or email.',
+            ]);
         }
 
         $user = $request->user();
 
         $token = $user->createToken(config('app.name'))->plainTextToken;
 
-        return SuccessResponse::response(Response::$statusTexts[Response::HTTP_OK], ['token' => $token], Response::HTTP_OK);
+        return redirect()->back();
     }
 }

@@ -15,11 +15,20 @@
     <div class="container">
         <div class="row">
             <div class="col-md-offset-3 col-md-6">
+                @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <form class="form-horizontal" method="POST" action="{{ route('login.post') }}">
                     @csrf
                     <span class="heading">АВТОРИЗАЦИЯ</span>
                     <div class="form-group">
-                        <input type="email" name="email" class="form-control" id="inputEmail" placeholder="E-mail">
+                        <input type="email" name="email" class="form-control" id="inputEmail" placeholder="E-mail" value="{{ old('email') }}">
                         <i class="fa fa-user"></i>
                     </div>
                     <div class="form-group help">
