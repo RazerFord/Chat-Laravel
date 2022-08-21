@@ -54,6 +54,10 @@ class MessageController extends BaseController
 
         $name = $this->service->getNameOfChat($id);
 
-        return view('messages', compact('lastMessages', 'messages', 'name'));
+        $token = $this->service->getTokenForCentrifugo($id);
+        
+        $tokenAuth = $this->service->getTokenAuth();
+
+        return view('messages', compact('lastMessages', 'messages', 'name', 'token', 'tokenAuth'));
     }
 }

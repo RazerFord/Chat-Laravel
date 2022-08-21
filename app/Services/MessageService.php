@@ -121,4 +121,31 @@ class MessageService implements ServiceInterface
             ->firstOrFail()
             ->name;
     }
+
+    /**
+     * Get token for centrifugo.
+     * 
+     * @param int
+     * @return string
+     */
+    public function getTokenForCentrifugo(int $id): string
+    {
+        return "token";
+    }
+
+    /**
+     * Get token auth.
+     * 
+     * @param int
+     * @return string
+     */
+    public function getTokenAuth(): string
+    {
+        /**
+         * @var User
+         */
+        $user = Auth::user();
+        
+        return $user->createToken(config('app.name'))->plainTextToken;
+    }
 }

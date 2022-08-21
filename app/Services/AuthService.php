@@ -29,10 +29,6 @@ class AuthService implements ServiceInterface
             ]);
         }
 
-        // $user = $request->user();
-
-        // $token = $user->createToken(config('app.name'))->plainTextToken;
-
         return redirect(route('messages.index'));
     }
 

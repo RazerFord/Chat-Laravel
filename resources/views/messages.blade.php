@@ -70,8 +70,7 @@
                         @unless(empty($messages))
                         @foreach($messages as $message)
                         <li class="d-flex justify-content-between mb-4">
-                            <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp" alt="avatar"
-                             class="rounded-circle d-flex align-self-start me-3 shadow-1-strong" width="60">
+                            <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp" alt="avatar" class="rounded-circle d-flex align-self-start me-3 shadow-1-strong" width="60">
                             <div class="card">
                                 <div class="card-header d-flex justify-content-between p-3">
                                     <p class="fw-bold mb-0">{{ $message->name }}</p>
@@ -96,6 +95,8 @@
             </div>
         </div>
     </section>
+    <input type="text" name="token" value="{{ $token }}" hiddesn="true">
+    <input type="text" name="tokenAuth" value="{{ $tokenAuth }}" hiddesn="true">
 </body>
 
 </html>
