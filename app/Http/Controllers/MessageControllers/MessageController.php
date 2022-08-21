@@ -44,10 +44,14 @@ class MessageController extends BaseController
      */
     public function show(int $id): View|Factory
     {
-        $lastMessages = $this->service->getLastMessages();
+        $lastSingleMessages = $this->service->lastSingleMessages() ?? collect([]);
 
-        $messages = $this->service->getMessages($id);
+        $lastNotSingleMessages = $this->service->lastNotSingleMessages() ?? collect(['naem' => 1]);
 
-        return view('messages', compact('lastMessages'));
+        $lastMessages = collect()->merge($lastNotSingleMessages)->merge($lastSingleMessages)->sortByDesc('created_at');
+
+        $messages = $this->service->getMessagesOfChat($id);
+
+        return view('messages', compact('lastMessages', 'messages'));
     }
 }

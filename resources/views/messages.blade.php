@@ -67,6 +67,23 @@
                     </div>
 
                     <ul id="list" class="list-unstyled" style="overflow-y:scroll; overflow-x:hidden; height:350px;">
+                        @unless(empty($messages))
+                        @foreach($messages as $message)
+                        <li class="d-flex justify-content-between mb-4">
+                            <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp" alt="avatar"
+                             class="rounded-circle d-flex align-self-start me-3 shadow-1-strong" width="60">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between p-3">
+                                    <p class="fw-bold mb-0">{{ $message->name }}</p>
+                                    <p class="text-muted small mb-0"><i class="far fa-clock"></i>{{ $message->created_at->format('Y.m.d H:i') }}</p>
+                                </div>
+                                <div class="card-body">
+                                    <p class="mb-0">{{ $message->text }}</p>
+                                </div>
+                            </div>
+                        </li>
+                        @endforeach
+                        @endunless
                     </ul>
                     <div class="bg-white mb-3">
                         <div class="form-outline">

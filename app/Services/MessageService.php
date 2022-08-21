@@ -3,10 +3,13 @@
 namespace App\Services;
 
 use App\Models\Friend;
+use App\Models\Message;
 use App\Models\User;
+use App\Models\UserChat;
 use App\Services\Interfaces\ServiceInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
+use App\Providers\RouteServiceProvider;
 
 class MessageService implements ServiceInterface
 {
@@ -86,9 +89,13 @@ class MessageService implements ServiceInterface
      * @param int $id
      * @return Collection
      */
-    public function getMessages(int $id): Collection
+    public function getMessagesOfChat(int $id): Collection
     {
-        $userId = Auth::user()->id;
-        dd(1);
+        $messages = Message::where('chat_id', $id)
+            ->join('users', 'messages.user_id', '=', 'users.id')
+            ->select('users.name as name', 'messages.text as text', 'messages.created_at as created_at')
+            ->get();
+
+        return $messages;
     }
 }
