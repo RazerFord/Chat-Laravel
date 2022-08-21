@@ -5,7 +5,6 @@ namespace App\Exceptions;
 use App\Responses\ErrorResponse;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class ValidationException extends Exception

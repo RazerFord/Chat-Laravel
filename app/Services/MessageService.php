@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Chat;
 use App\Models\Friend;
 use App\Models\Message;
 use App\Models\User;
@@ -97,5 +98,27 @@ class MessageService implements ServiceInterface
             ->get();
 
         return $messages;
+    }
+
+    /**
+     * Get name of chat.
+     * 
+     * @param int $id
+     * @return string
+     */
+    public function getNameOfChat($id): string
+    {
+        $chat = Chat::findOrFail($id);
+
+        if (!$chat->single) {
+            return $chat->name;
+        }
+
+        return UserChat::where('chat_id', $id)
+            ->where('user_id', '<>', Auth::user()->id)
+            ->first()
+            ->user()
+            ->firstOrFail()
+            ->name;
     }
 }

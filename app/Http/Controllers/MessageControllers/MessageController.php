@@ -52,6 +52,8 @@ class MessageController extends BaseController
 
         $messages = $this->service->getMessagesOfChat($id);
 
-        return view('messages', compact('lastMessages', 'messages'));
+        $name = $this->service->getNameOfChat($id);
+
+        return view('messages', compact('lastMessages', 'messages', 'name'));
     }
 }
