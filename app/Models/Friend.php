@@ -19,7 +19,7 @@ class Friend extends Model
      */
     protected $fillable = [
         'user_id',
-        'friend_id',
+        'chat_id',
         'latest_message_id',
     ];
 
@@ -43,8 +43,8 @@ class Friend extends Model
     /**
      * Return relationship on user.
      */
-    public function user(): BelongsTo
+    public function chat(): BelongsTo
     {
-        return $this->BelongsTo(User::class, 'friend_id', 'id');
+        return $this->BelongsTo(Chat::class, 'chat_id', 'id');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Message;
+use App\Models\Chat;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,17 +15,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_messages', function (Blueprint $table) {
+        Schema::create('user_chats', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)
                 ->constrained('users', 'id')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
-            $table->foreignIdFor(Message::class)
-                ->constrained('messages', 'id')
+            $table->foreignIdFor(Chat::class)
+                ->constrained('chats', 'id')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
-            $table->unique(['user_id', 'message_id']);
             $table->timestamps();
         });
     }
@@ -37,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_messages');
+        Schema::dropIfExists('user_chats');
     }
 };

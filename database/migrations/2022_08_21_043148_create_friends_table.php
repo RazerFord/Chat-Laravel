@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Chat;
 use App\Models\Message;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -21,15 +22,15 @@ return new class extends Migration
                 ->constrained('users', 'id')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
-            $table->foreignIdFor(User::class, 'friend_id')
-                ->constrained('users', 'id')
+            $table->foreignIdFor(Chat::class)
+                ->constrained('chats', 'id')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
             $table->foreignIdFor(Message::class, 'latest_message_id')
                 ->constrained('messages', 'id')
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
-            $table->unique(['user_id', 'friend_id']);
+            $table->unique(['user_id', 'chat_id']);
             $table->timestamps();
         });
     }

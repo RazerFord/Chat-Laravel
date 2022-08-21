@@ -31,15 +31,15 @@
                                 @unless(empty($lastMessages))
                                 @foreach($lastMessages as $message)
                                 <li class="p-2 border-bottom">
-                                    <a href="{{ asset(route('messages.show', ['id' => $message->friend_id])) }}" class="d-flex justify-content-between">
+                                    <a href="{{ asset(route('messages.show', ['id' => $message->chat_id])) }}" class="d-flex justify-content-between">
                                         <div class="d-flex flex-row">
                                             <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-1.webp" alt="avatar" class="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="60">
                                             <div class="pt-1">
-                                                <p class="fw-bold mb-0">{{ $message->user->name }}</p>
+                                                <p class="fw-bold mb-0">{{ $message->name }}</p>
                                                 <p class="small text-muted">{{
-                                                    strlen($message->message->text <= 20) ? 
-                                                    $message->message->text :
-                                                    substr($message->message->text, 0, 20) . '...' 
+                                                    strlen($message->text <= 20) ? 
+                                                    $message->text :
+                                                    substr($message->text, 0, 20) . '...' 
                                                 }}</p>
                                             </div>
                                         </div>

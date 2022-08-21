@@ -28,7 +28,11 @@ class MessageController extends BaseController
      */
     public function index(): View|Factory
     {
-        $lastMessages = $this->service->getLastMessages();
+        $lastSingleMessages = $this->service->lastSingleMessages() ?? collect([]);
+
+        $lastNotSingleMessages = $this->service->lastNotSingleMessages() ?? collect(['naem' => 1]);
+
+        $lastMessages = collect()->merge($lastNotSingleMessages)->merge($lastSingleMessages)->sortByDesc('created_at');
 
         return view('messages', compact('lastMessages'));
     }
