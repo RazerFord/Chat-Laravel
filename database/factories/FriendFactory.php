@@ -7,9 +7,9 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Message>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Friend>
  */
-class MessageFactory extends Factory
+class FriendFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -20,7 +20,8 @@ class MessageFactory extends Factory
     {
         return [
             'user_id' => User::inRandomOrder()->first()->id,
-            'text' => $this->faker->text,
+            'friend_id' => User::inRandomOrder()->first()->id,
+            'latest_message_id' => Message::inRandomOrder()->first()->id,
         ];
     }
 }

@@ -27,7 +27,8 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::middleware('auth:web')->group(function () {
     Route::controller(MessageController::class)->group(function () {
-        Route::get('message', 'index')->name('message.index');
+        Route::get('messages', 'index')->name('messages.index');
+        Route::get('messages/{id}', 'show')->name('messages.show')->where('id', '[0-9]+');
     });
 
     Route::controller(AuthController::class)->group(function () {

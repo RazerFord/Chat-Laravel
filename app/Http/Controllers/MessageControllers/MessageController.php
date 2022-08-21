@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\MessageControllers;
 
 use App\Http\Controllers\BaseController;
+use App\Models\Message;
 use App\Services\MessageService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -27,8 +28,22 @@ class MessageController extends BaseController
      */
     public function index(): View|Factory
     {
-        $users = $this->service->getUsers();
+        $lastMessages = $this->service->getLastMessages();
 
-        return view('message', compact('users'));
+        return view('messages', compact('lastMessages'));
+    }
+
+    /**
+     * Show messages of user.
+     * 
+     * @return View|Factory
+     */
+    public function show(int $id): View|Factory
+    {
+        $lastMessages = $this->service->getLastMessages();
+
+        $messages = $this->service->getMessages($id);
+
+        return view('messages', compact('lastMessages'));
     }
 }

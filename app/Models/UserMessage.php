@@ -4,13 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Message extends Model
+class UserMessage extends Model
 {
     use HasFactory;
 
-    protected $table = 'messages';
+    protected $table = 'user_messages';
 
     /**
      * The attributes that are mass assignable.
@@ -19,7 +18,7 @@ class Message extends Model
      */
     protected $fillable = [
         'user_id',
-        'text',
+        'message_id',
     ];
 
     /**
@@ -30,14 +29,4 @@ class Message extends Model
     protected $guarded = [
         'id'
     ];
-
-    /**
-     * Return relationship on users.
-     * 
-     * @return BelongsToMany
-     */
-    public function users(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class);
-    }
 }

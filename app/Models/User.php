@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -46,12 +46,22 @@ class User extends Authenticatable
     ];
 
     /**
-     * Return relationship on user.
+     * Return relationship on messages.
+     * 
+     * @return BelongsToMany
+     */
+    public function messages(): BelongsToMany
+    {
+        return $this->belongsToMany(Message::class);
+    }
+
+    /**
+     * Return relationship on friends.
      * 
      * @return HasMany
      */
-    public function messages(): HasMany
+    public function friends(): HasMany
     {
-        return $this->hasMany(Message::class);
+        return $this->hasMany(Friend::class);
     }
 }

@@ -37,7 +37,7 @@ class AuthController extends BaseController
     public function index(): View|Factory|Redirector|RedirectResponse
     {
         if (Auth::check()) {
-            return redirect(route('message.index'));
+            return redirect(route('messages.index'));
         }
 
         return view('auth');
