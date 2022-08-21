@@ -10,6 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <!-- Bootstrap Bundle JS (jsDelivr CDN) -->
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/centrifuge@3.0.0/dist/centrifuge.js"></script>
     <script src="{{ asset('js/Message.js') }}"></script>
     <script src="{{ asset('js/ActiveButton.js') }}"></script>
     <script src="{{ asset('js/Search.js') }}"></script>
@@ -98,10 +99,10 @@
         </div>
     </section>
     @unless(empty($name))
-    <input type="text" name="token" value="{{ $token }}" hiddesn="true">
+    <input type="text" id="token" name="token" value="{{ $token }}" hiddesn="true">
     @endunless
     @unless(empty($name))
-    <input type="text" name="tokenAuth" value="{{ $tokenAuth }}" hiddesn="true">
+    <input type="text" id="tokenAuth" name="tokenAuth" value="{{ $tokenAuth }}" hiddesn="true">
     @endunless
 </body>
 
