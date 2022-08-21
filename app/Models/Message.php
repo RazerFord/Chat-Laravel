@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Message extends Model
 {
@@ -18,6 +18,7 @@ class Message extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'chat_id',
         'user_id',
         'text',
     ];
@@ -34,10 +35,10 @@ class Message extends Model
     /**
      * Return relationship on users.
      * 
-     * @return BelongsToMany
+     * @return BelongsTo
      */
-    public function users(): BelongsToMany
+    public function user(): BelongsTo
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

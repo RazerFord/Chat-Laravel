@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthControllers\AuthController;
+use App\Http\Controllers\MessageControllers\MessageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,8 +15,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::controller(AuthController::class)->group(function () {
-    Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth:sanctum')->group(function () {
+    Route::controller(AuthController::class)->group(function () {
         Route::get('me', 'me');
+    });
+
+    Route::controller(MessageController::class)->group(function () {
+        Route::post('messages','store');
     });
 });

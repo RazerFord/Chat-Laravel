@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\MessageControllers;
 
 use App\Http\Controllers\BaseController;
-use App\Models\Message;
+use App\Http\Requests\Message\StoreFormRequest;
+use App\Responses\SuccessResponse;
 use App\Services\MessageService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 
 class MessageController extends BaseController
 {
@@ -55,9 +57,22 @@ class MessageController extends BaseController
         $name = $this->service->getNameOfChat($id);
 
         $token = $this->service->getTokenForCentrifugo($id);
-        
+
         $tokenAuth = $this->service->getTokenAuth();
 
         return view('messages', compact('lastMessages', 'messages', 'name', 'token', 'tokenAuth'));
+    }
+
+    /**
+     * Store new message.
+     * 
+     * @param StoreFormRequest
+     * @return JsonResponse
+     */
+    public function store(StoreFormRequest $request)
+    {
+        $answer = $this->service->createMessage($request->validated());
+
+        return SuccessResponse::response(JsonResponse::$statusTexts[JsonResponse::HTTP_CREATED], $answer, JsonResponse::HTTP_CREATED);
     }
 }

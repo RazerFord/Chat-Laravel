@@ -2,10 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
-// use App\Exceptions\ValidationException;
-// use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-// use Symfony\Component\HttpFoundation\Response;
 
 class LoginFormRequest extends FormRequest
 {
@@ -31,20 +28,4 @@ class LoginFormRequest extends FormRequest
             'password' => 'required|string|max:255',
         ];
     }
-
-    // /**
-    //  * Handle a failed validation attempt.
-    //  *
-    //  * @param  Validator $validator
-    //  * @return void
-    //  *
-    //  * @throws \Illuminate\Validation\ValidationException
-    //  */
-    // protected function failedValidation(Validator $validator)
-    // {
-    //     throw new ValidationException(
-    //         Response::$statusTexts[Response::HTTP_UNPROCESSABLE_ENTITY],
-    //         $validator->errors()->messages()
-    //     );
-    // }
 }

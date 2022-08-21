@@ -62,7 +62,9 @@
                     <div href="#!" class="d-flex justify-content-center" style="padding-bottom: 15px;">
                         <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-4.webp" alt="avatar" class="rounded-circle d-flex align-self-center me-3 shadow-1-strong" width="40">
                         <div class="pt-1">
+                            @unless(empty($name))
                             <h5 class="font-weight-bold mb-3 text-center text-lg-start center">{{ $name }}</h5>
+                            @endunless
                         </div>
                     </div>
 
@@ -95,8 +97,12 @@
             </div>
         </div>
     </section>
+    @unless(empty($name))
     <input type="text" name="token" value="{{ $token }}" hiddesn="true">
+    @endunless
+    @unless(empty($name))
     <input type="text" name="tokenAuth" value="{{ $tokenAuth }}" hiddesn="true">
+    @endunless
 </body>
 
 </html>

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\PublishMessage;
 use App\Models\Chat;
 use App\Models\Friend;
 use App\Models\Message;
@@ -10,6 +11,7 @@ use App\Models\UserChat;
 use App\Services\Interfaces\ServiceInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Gate;
 use phpcent\Client;
 
 class MessageService implements ServiceInterface
@@ -106,7 +108,7 @@ class MessageService implements ServiceInterface
      * @param int $id
      * @return string
      */
-    public function getNameOfChat($id): string
+    public function getNameOfChat(int $id): string
     {
         $chat = Chat::findOrFail($id);
 
@@ -153,5 +155,26 @@ class MessageService implements ServiceInterface
         $user = Auth::user();
 
         return $user->createToken(config('app.name'))->plainTextToken;
+    }
+
+    /**
+     * Create a new message.
+     * 
+     * @param array
+     * @return array
+     */
+    public function createMessage(array $data): array
+    {
+        if (Gate::denies('create-message', [$data])) {
+            abort(403);
+        }
+
+        $data['user_id'] = Auth::user()->id;
+
+        $message = Message::create($data);
+
+        PublishMessage::dispatch($message);
+
+        return $message->toArray();
     }
 }
