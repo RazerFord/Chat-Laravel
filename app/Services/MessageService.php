@@ -10,7 +10,7 @@ use App\Models\UserChat;
 use App\Services\Interfaces\ServiceInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
-use App\Providers\RouteServiceProvider;
+use phpcent\Client;
 
 class MessageService implements ServiceInterface
 {
@@ -130,7 +130,13 @@ class MessageService implements ServiceInterface
      */
     public function getTokenForCentrifugo(int $id): string
     {
-        return "token";
+        $client = new Client(
+            config('centrifugo.url'),
+            env('CENTRIFUGO_API_KEY'),
+            env('CENTRIFUGO_TOKEN_HMAC_SECRET_KEY')
+        );
+
+        return $client->generateConnectionToken($id);
     }
 
     /**
@@ -145,7 +151,7 @@ class MessageService implements ServiceInterface
          * @var User
          */
         $user = Auth::user();
-        
+
         return $user->createToken(config('app.name'))->plainTextToken;
     }
 }

@@ -19,6 +19,14 @@ x-backend: &backend
     DB_USERNAME: postgres
     DB_PASSWORD: password
     WAIT_HOSTS: postgres:5432
+    CENTRIFUGO_TOKEN_HMAC_SECRET_KEY: secret
+    CENTRIFUGO_ADMIN: 1
+    CENTRIFUGO_ADMIN_PASSWORD: password
+    CENTRIFUGO_API_KEY: api_key
+    CENTRIFUGO_ADMIN_SECRET: secret
+    CENTRIFUGO_HISTORY_SIZE: 10
+    CENTRIFUGO_HISTORY_TTL: 300s
+    CENTRIFUGO_ALLOWED_ORIGINS: '*'
 
 services:
   backend:
