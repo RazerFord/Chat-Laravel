@@ -21,7 +21,7 @@ window.onload = function () {
         const centrifuge = new Centrifuge("ws://localhost:3001/connection/websocket", {
             token: token
         });
-
+        console.log()
         centrifuge.on('connecting', function (ctx) {
             console.log(`connecting: ${ctx.code}, ${ctx.reason}`);
         }).on('connected', function (ctx) {
@@ -30,7 +30,9 @@ window.onload = function () {
             console.log(`disconnected: ${ctx.code}, ${ctx.reason}`);
         }).connect();
 
-        const sub = centrifuge.newSubscription("chat#1");
+        const arrStr = document.location.pathname.split('/')
+        const num = arrStr[arrStr.length - 1]
+        const sub = centrifuge.newSubscription("chat#" + num);
 
         sub.on('publication', function (ctx) {
             addMessage(ctx.data)
@@ -53,17 +55,6 @@ function addMessage(ctx) {
     if (yes) {
         list.scrollTop = list.scrollHeight
     }
-}
-
-function getAndClearText() {
-    const text = document.getElementById("message")
-    const message = text.value
-    text.value = ""
-    return message
-}
-
-function getSender() {
-    return "Brad Pitt"
 }
 
 function createMessage(sender, text, data) {

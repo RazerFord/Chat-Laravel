@@ -7,7 +7,9 @@ async function sendMessage() {
     myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
     var urlencoded = new URLSearchParams();
-    urlencoded.append("chat_id", "1");
+    const arrStr = document.location.pathname.split('/')
+    const num = arrStr[arrStr.length - 1]
+    urlencoded.append("chat_id", num);
     urlencoded.append("text", message);
 
     var requestOptions = {
