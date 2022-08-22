@@ -36,7 +36,9 @@ class MessageController extends BaseController
 
         $lastMessages = collect()->merge($lastNotSingleMessages)->merge($lastSingleMessages)->sortByDesc('created_at');
 
-        return view('messages', compact('lastMessages'));
+        $tokenAuth = $this->service->getTokenAuth();
+
+        return view('messages', compact('lastMessages', 'tokenAuth'));
     }
 
     /**

@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Responses\SuccessResponse;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends BaseController
@@ -24,7 +25,7 @@ class UserController extends BaseController
 
     public function index(Request $request, User $user)
     {
-        $users = $user->getUserByFilter($request)->get();
+        $users = $user->getUserByFilter($request)->where('id', '<>', Auth::user()->id)->get();
 
         return SuccessResponse::response(
             Response::$statusTexts[Response::HTTP_OK],

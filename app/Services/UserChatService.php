@@ -19,23 +19,35 @@ class UserChatService implements ServiceInterface
     public function createNewChatOrFirst(array $data): array
     {
         $ids = UserChat::where('user_id', Auth::user()->id)->get()->pluck('chat_id')->toArray();
+        
+        if (empty($ids)) {
+            $chat = ChatCreate::dispatch([$data['user_id'], Auth::user()->id]);
+
+            return $chat[0];
+        }
 
         $userChats = UserChat::whereIn('chat_id', $ids)->where('user_id', $data['user_id'])->get();
 
         $userChatsIds = $userChats->pluck('chat_id');
 
+        if (empty($userChatsIds->toArray())) {
+            $chat = ChatCreate::dispatch([$data['user_id'], Auth::user()->id]);
+            
+            return $chat[0];
+        }
+
         if ($userChatsIds->isEmpty()) {
             $chat = ChatCreate::dispatch([$data['user_id'], Auth::user()->id]);
 
-            return $chat;
+            return $chat[0];
         }
-
+        
         $chat = Chat::whereIn('id', $userChatsIds)->where('single', true)->first();
 
         if (empty($chat)) {
             $chat = ChatCreate::dispatch([$data['user_id'], Auth::user()->id]);
 
-            return $chat;
+            return $chat[0];
         }
 
         return $chat->toArray();

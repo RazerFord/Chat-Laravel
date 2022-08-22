@@ -175,6 +175,14 @@ class MessageService implements ServiceInterface
 
         PublishMessage::dispatch($message);
 
+        $userIds = UserChat::where('chat_id', $data['chat_id'])->get()->pluck('user_id');
+
+        foreach ($userIds as $userId) {
+            Friend::updateOrCreate(
+                ['user_id' => $userId, 'chat_id' => $data['chat_id']],
+                ['latest_message_id' => $message->id]
+            );
+        }
         return $message->toArray();
     }
 }

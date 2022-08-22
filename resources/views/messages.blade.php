@@ -37,9 +37,8 @@
                                             <div class="pt-1">
                                                 <p class="fw-bold mb-0">{{ $message->name }}</p>
                                                 <p class="small text-muted">{{
-                                                    strlen($message->text <= 20) ? 
-                                                    $message->text :
-                                                    substr($message->text, 0, 20) . '...' 
+                                                    (strlen($message->text) <= 20) ? 
+                                                    $message->text : (substr($message->text, 0, 20) . '...') 
                                                 }}</p>
                                             </div>
                                         </div>
@@ -97,10 +96,10 @@
             </div>
         </div>
     </section>
-    @unless(empty($name))
+    @unless(empty($token))
     <input type="text" id="token" name="token" value="{{ $token }}" hidden="true">
     @endunless
-    @unless(empty($name))
+    @unless(empty($tokenAuth))
     <input type="text" id="tokenAuth" name="tokenAuth" value="{{ $tokenAuth }}" hidden="true">
     @endunless
 </body>

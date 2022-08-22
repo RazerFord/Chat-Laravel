@@ -97,6 +97,7 @@ function search() {
                 clearList(listUser)
                 var myHeaders = new Headers();
                 const tok = document.getElementById('tokenAuth')
+
                 if (tok !== null) {
                     token = tok.value
                     myHeaders.append("Authorization", "Bearer " + token)
@@ -157,12 +158,58 @@ function down(id) {
         div.setAttribute('style', 'margin-top:10px;')
         div.innerHTML = '<div id=newMessage' + id + ' class="d-flex flex-row" > \
     <input id="mintext" class="form-control" type="text" placeholder="Начать новый чат" style="animation-name: slidein; transition: width 1s cubic-bezier(0, 0, 1, 1) 500ms;"> \
-                    <button onclick="sendMessageBox()" type="button" class="btn btn-info btn-rounded float-right" style="margin: 0 0 0 auto">Отправить</button> \
+                    <button onclick="sendMessageBox('+ id + ')" type="button" class="btn btn-info btn-rounded float-right" style="margin: 0 0 0 auto">Отправить</button> \
     </div>'
         user.appendChild(div)
     }
 }
 
-function sendMessageBox() {
-    location.assign('http://0.0.0.0:8080/messages')
+async function sendMessageBox(id) {
+    const tok = document.getElementById('tokenAuth');
+    if (tok !== null) {
+        const token = tok.value
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token);
+        myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+        var urlencoded = new URLSearchParams();
+        urlencoded.append("user_id", id);
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: urlencoded,
+            redirect: 'follow'
+        };
+
+        await fetch("http://0.0.0.0:8080/api/user-chat", requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                const chatId = result.data.id
+                const message = document.getElementById('mintext').value
+                var myHeaders = new Headers();
+                myHeaders.append("Authorization", "Bearer " + token);
+                myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+                var urlencoded = new URLSearchParams();
+
+                urlencoded.append("chat_id", chatId);
+                urlencoded.append("text", message);
+                console.log(urlencoded)
+                var requestOptions = {
+                    method: 'POST',
+                    headers: myHeaders,
+                    body: urlencoded,
+                    redirect: 'follow'
+                };
+
+                fetch("http://0.0.0.0:8080/api/messages", requestOptions)
+                    .then(response => response.text())
+                    .then(result => {
+                        location.assign('http://0.0.0.0:8080/messages/' + chatId)
+                    })
+                    .catch(error => console.log('error', error));
+            })
+            .catch(error => console.log('error', error));
+    }
 }
