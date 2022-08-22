@@ -20,6 +20,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         \App\Events\PublishMessage::class => [
             \App\Listeners\PublishMessage::class,
+        ],
+        \App\Events\ChatCreate::class => [
+            \App\Listeners\ChatCreate::class,
         ]
     ];
 

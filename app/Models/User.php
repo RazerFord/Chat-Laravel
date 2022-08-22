@@ -68,6 +68,16 @@ class User extends Authenticatable
         return $this->hasMany(Friend::class);
     }
 
+        /**
+     * Return relationship on chats.
+     * 
+     * @return BelongsToMany
+     */
+    public function chats(): BelongsToMany
+    {
+        return $this->belongsToMany(Chat::class);
+    }
+
     /**
      * Filter course.
      * 

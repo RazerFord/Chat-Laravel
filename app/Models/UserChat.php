@@ -18,9 +18,8 @@ class UserChat extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'user_id',
+        'chat_id',
     ];
 
     /**
