@@ -8,6 +8,9 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Models\Filters\User\UserFilter;
+use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 
 class User extends Authenticatable
 {
@@ -63,5 +66,16 @@ class User extends Authenticatable
     public function friends(): HasMany
     {
         return $this->hasMany(Friend::class);
+    }
+
+    /**
+     * Filter course.
+     * 
+     * @param Request $request
+     * @return Builder
+     */
+    public function getUserByFilter(Request $request): Builder
+    {
+        return (new UserFilter())->apply($request);
     }
 }

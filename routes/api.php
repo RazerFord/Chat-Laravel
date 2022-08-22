@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthControllers\AuthController;
 use App\Http\Controllers\MessageControllers\MessageController;
+use App\Http\Controllers\UserControllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,7 +21,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('me', 'me');
     });
 
+    Route::controller(UserController::class)->group(function () {
+        Route::get('users', 'index');
+    });
+
     Route::controller(MessageController::class)->group(function () {
-        Route::post('messages','store');
+        Route::post('messages', 'store');
     });
 });
