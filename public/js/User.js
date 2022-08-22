@@ -1,9 +1,6 @@
-//addUser()
-
-
-function addUser() {
+function addUser(name, id) {
     const list = getUserList()
-    list.appendChild(newUser())
+    list.appendChild(newUser(name, id))
 }
 
 function getUserList() {
@@ -11,14 +8,14 @@ function getUserList() {
     return userList
 }
 
-function newUser() {
+function newUser(name, id) {
     var container = document.createElement("LI")
-    container.innerHTML = userHTML('Kate Moss')
+    container.innerHTML = userHTML(name, id)
     return container
 }
 
-function userHTML(name) {
-    return '<a href="#!" class="d-flex justify-content-between"> \
+function userHTML(name, id) {
+    return '<li id=user_' + id + ' class="p-2 border-bottom"> \
             <div class="d-flex flex-row" > \
                 <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-4.webp" \
                     alt="avatar" \
@@ -26,11 +23,8 @@ function userHTML(name) {
                     width="60"> \
                     <div class="pt-1"> \
                         <p class="fw-bold mb-0">' + name + '</p> \
-                        <p class="small text-muted">Lorem ipsum dolor sit.</p> \
                     </div> \
-                </div> \
-            <div class="pt-1"> \
-                <p class="small text-muted mb-1">Yesterday</p> \
-            </div> \
-            </a >'  
+                    <button id="down" onclick="down('+ id + ')" type="button" class="btn btn-info btn-rounded float-right" style="margin: 0 0 0 auto">+</button> \
+                    </div> \
+            </li>'
 }

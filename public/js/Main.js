@@ -9,15 +9,18 @@ window.onload = function () {
 
     const text = document.getElementById("message")
     text.addEventListener('input', function () {
-        if (empty()) {
+        const tok = document.getElementById('token');
+
+        if (empty() || tok === null) {
             button.setAttribute("disabled", true)
         } else {
             button.removeAttribute("disabled")
         }
     })
 
-    const token = document.getElementById('token').value;
-    if (token !== null) {
+    const tok = document.getElementById('token');
+    if (tok !== null) {
+        token = tok.value
         const centrifuge = new Centrifuge("ws://localhost:3001/connection/websocket", {
             token: token
         });
@@ -44,6 +47,8 @@ window.onload = function () {
             console.log(`unsubscribed: ${ctx.code}, ${ctx.reason}`);
         }).subscribe();
     }
+
+    search()
 }
 
 function addMessage(ctx) {
@@ -75,7 +80,89 @@ function messageBox(sender, text, data) {
         <div class="card-body"> \
             <p class="mb-0">'+ text + '</p> \
         </div> \
-    </div> \
-</li>'
+</li > '
 }
 
+function search() {
+    const text = document.getElementById("search")
+    const listUser = getUserList()
+    var children = getArrayChild(listUser)
+
+    text.addEventListener('input', (event) => {
+        setTimeout(() => {
+            if (text.value === "") {
+                clearList(listUser)
+                addChildren(listUser, children)
+            } else {
+                clearList(listUser)
+                var myHeaders = new Headers();
+                const tok = document.getElementById('tokenAuth')
+                if (tok !== null) {
+                    token = tok.value
+                    myHeaders.append("Authorization", "Bearer " + token)
+
+                    var requestOptions = {
+                        method: 'GET',
+                        headers: myHeaders,
+                        redirect: 'follow'
+                    };
+
+                    console.log()
+
+                    fetch("http://0.0.0.0:8080/api/users?name=" + text.value, requestOptions)
+                        .then(response => response.json())
+                        .then(result => {
+                            for (let obj of result.data) {
+                                addUser(obj.name, obj.id)
+                            }
+                        })
+                        .catch(error => console.log('error', error));
+                }
+            }
+        }, 1000)
+    })
+}
+
+function clearList(list) {
+    while (list.firstChild) {
+        list.removeChild(list.firstChild);
+    }
+}
+
+function getArrayChild(list) {
+    var newCh = []
+    if (list.hasChildNodes()) {
+        var children = list.childNodes;
+
+        for (var i = 0; i < children.length; ++i) {
+            newCh.push(children[i])
+        }
+    }
+    return newCh
+}
+
+function addChildren(list, children) {
+    for (var i = 0; i < children.length; ++i) {
+        list.appendChild(children[i])
+    }
+}
+
+function down(id) {
+    const user = document.getElementById('user_' + id)
+
+    const newMessage = document.getElementById('newMessage' + id)
+
+    if (newMessage === null) {
+        const div = document.createElement('div')
+        div.setAttribute('style', 'margin-top:10px;')
+        div.innerHTML = '<div id=newMessage' + id + ' class="d-flex flex-row" > \
+    <input id="mintext" class="form-control" type="text" placeholder="Начать новый чат" style="animation-name: slidein; transition: width 1s cubic-bezier(0, 0, 1, 1) 500ms;"> \
+                    <button onclick="sendMessageBox()" type="button" class="btn btn-info btn-rounded float-right" style="margin: 0 0 0 auto">Отправить</button> \
+    </div>'
+        user.appendChild(div)
+    }
+}
+
+function sendMessageBox() {
+    location.assign('http://0.0.0.0:8080/messages')
+}

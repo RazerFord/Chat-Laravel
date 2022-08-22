@@ -1,28 +1,32 @@
 async function sendMessage() {
-    const message = getAndClearText()
-    const token = document.getElementById('tokenAuth').value;
+    
+    const tok = document.getElementById('tokenAuth');
+    if (tok !== null) {
+        const message = getAndClearText()
+        token = tok.value
 
-    var myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer " + token);
-    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + token);
+        myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
-    var urlencoded = new URLSearchParams();
-    const arrStr = document.location.pathname.split('/')
-    const num = arrStr[arrStr.length - 1]
-    urlencoded.append("chat_id", num);
-    urlencoded.append("text", message);
+        var urlencoded = new URLSearchParams();
+        const arrStr = document.location.pathname.split('/')
+        const num = arrStr[arrStr.length - 1]
+        urlencoded.append("chat_id", num);
+        urlencoded.append("text", message);
 
-    var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: urlencoded,
-        redirect: 'follow'
-    };
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: urlencoded,
+            redirect: 'follow'
+        };
 
-    await fetch("http://0.0.0.0:8080/api/messages", requestOptions)
-        .then()
-        .then()
-        .catch(error => console.log('error', error));
+        await fetch("http://0.0.0.0:8080/api/messages", requestOptions)
+            .then()
+            .then()
+            .catch(error => console.log('error', error));
+    }
 
     const list = document.getElementById("list")
     const yes = boolScroll(list)

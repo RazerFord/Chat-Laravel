@@ -13,7 +13,6 @@
     <script src="https://unpkg.com/centrifuge@3.0.0/dist/centrifuge.js"></script>
     <script src="{{ asset('js/Message.js') }}"></script>
     <script src="{{ asset('js/Main.js') }}"></script>
-    <script src="{{ asset('js/Search.js') }}"></script>
     <script src="{{ asset('js/User.js') }}"></script>
 </head>
 
@@ -99,10 +98,10 @@
         </div>
     </section>
     @unless(empty($name))
-    <input type="text" id="token" name="token" value="{{ $token }}" hiddesn="true">
+    <input type="text" id="token" name="token" value="{{ $token }}" hidden="true">
     @endunless
     @unless(empty($name))
-    <input type="text" id="tokenAuth" name="tokenAuth" value="{{ $tokenAuth }}" hiddesn="true">
+    <input type="text" id="tokenAuth" name="tokenAuth" value="{{ $tokenAuth }}" hidden="true">
     @endunless
 </body>
 
